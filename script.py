@@ -2,39 +2,39 @@ def run_script():
     print("Ton script démarre ici")
 
     import time
-import requests
+import os
+
+def signaler_numero(numero):
+    # Ouvrir l'application WhatsApp sur l'émulateur
+    os.system("adb shell am start -n com.whatsapp/com.whatsapp.MainActivity")
+    
+    # Attendre que l'application soit ouverte
+    time.sleep(5)
+    
+    # Signaler le numéro de téléphone
+    os.system(f"adb shell input tap 540 1010")  # Ouvrir le menu de signalements
+    os.system(f"adb shell input tap 940 210")  # Sélectionner le type de signalement
+    os.system(f"adb shell input tap 1040 1010")  # Sélectionner le numéro de téléphone à signaler
+    os.system(f"adb shell input tap 540 1120")  # Sélectionner le numéro de téléphone saisi
+    os.system(f"adb shell input tap 340 1010")  # Envoyer le signalement
+    
+    print("Signalement envoyé.")
 
 def main():
-    numero = input("Entrez le numéro WhatsApp : (+242) 10 20 50 70 - ex 100 200 500 700 ou (242) 1020 50570 ")
+    # Demander au utilisateur de saisir le numéro de téléphone à signaler
+    numero = input("Entrez le numéro de téléphone : ")
     
     print("\nTraitement en cours...")
-    print(f"Numéro saisi : {numero}")
+    print(f"Numéro de téléphone saisi : {numero}")
     
-    # Simuler un numéro 242xxxxxxx
-    numero_simule = numero.replace("(242)", "+242").replace("(", "").replace(")", "")
+    # Lancer l'émulateur Android
+    os.system("adb start-server")
     
-    # Simulation d'action
-    for _ in range(1000000):
-        # Envoyer le signalement via API WhatsApp
-        url = "https://www.whatsapp.com/ldp/report"
-        data = {
-            "phone": numero_simule,
-            "report_type": "spam"
-        }
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-        }
-        try:
-            response = requests.post(url, data=data, headers=headers)
-            if response.status_code == 200:
-                print(f"Succès pour le numéro {numero_simule}")
-            else:
-                print(f"Erreur pour le numéro {numero_simule} : {response.text}")
-        except Exception as e:
-            print(f"Erreur pour le numéro {numero_simule} : {e}")
+    # Signaler le numéro de téléphone 100000 fois
+    for _ in range(100000):
+        signaler_numero(numero)
         
-        print(f"Signalement envoyé pour {numero_simule}")
-        # time.sleep(0.001)
+    print("Signalements envoyés.")
 
 if __name__ == "__main__":
     main()
