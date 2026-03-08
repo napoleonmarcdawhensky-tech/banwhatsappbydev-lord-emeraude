@@ -1,22 +1,21 @@
----
-
-### 4️⃣ `utils.py` (style et banner)
-
-```python
 from colorama import Fore, Style, init
 import os, time
 
+# Initialisation de Colorama
 init(autoreset=True)
 
+# Fonction pour nettoyer l'écran
 def clear():
     os.system("clear")
 
+# Fonction pour afficher du texte caractère par caractère
 def slow_print(text, delay=0.002):
     for char in text:
         print(char, end="", flush=True)
         time.sleep(delay)
     print()
 
+# Fonction pour afficher la banner TRAGÉDIE
 def banner():
     slow_print(Fore.GREEN + Style.BRIGHT + """
 ████████╗██████╗  █████╗  ██████╗ ███████╗███████╗
