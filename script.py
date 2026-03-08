@@ -1,35 +1,24 @@
 def run_script():
     print("Ton script démarre ici")
 
-    import os
-import time
+    import time
 import requests
 
-def signaler_numero(numero, rate):
-    print(f"Signaler le numéro de téléphone : {numero}")
-    for i in range(rate):
-        # Ouvrir un chat en tapant sur les coordonnées (540, 1010)
-        os.system("adb shell input tap 540 1010")
-        
-        # Ouvrir report en tapant sur les coordonnées (940, 210)
-        os.system("adb shell input tap 940 210")
-        
-        # Choisir report en taprant sur les coordonnées (1040, 1010)
-        os.system("adb shell input tap 1040 1010")
-        
-        # Choisir reepot en tapant sur les coordonnées (540, 1120)
-        os.system("adb shell input tap 540 1120")
-        
-        # Choisir genre en tapant sur les coordonnées (440, 1010)
-        os.system("adb shell input tap 440 1010")
-        
-        # Envoyer le signalement en tapant sur les coordonnées (340, 1010)
-        os.system("adb shell input tap 340 1010")
-        
+def main():
+    numero = input("Entrez le numéro WhatsApp : (+242) 10 20 50 70 - ex 100 200 500 700 ou (242) 1020 50570 ")
+    
+    print("\nTraitement en cours...")
+    print(f"Numéro saisi : {numero}")
+    
+    # Simuler un numéro 242xxxxxxx
+    numero_simule = numero.replace("(242)", "+242").replace("(", "").replace(")", "")
+    
+    # Simulation d'action
+    for _ in range(1000000):
         # Envoyer le signalement via API WhatsApp
         url = "https://www.whatsapp.com/ldp/report"
         data = {
-            "phone": numero,
+            "phone": numero_simule,
             "report_type": "spam"
         }
         headers = {
@@ -38,29 +27,14 @@ def signaler_numero(numero, rate):
         try:
             response = requests.post(url, data=data, headers=headers)
             if response.status_code == 200:
-                print(f"Succès pour le numéro {numero}")
+                print(f"Succès pour le numéro {numero_simule}")
             else:
-                print(f"Erreur pour le numéro {numero} : {response.text}")
+                print(f"Erreur pour le numéro {numero_simule} : {response.text}")
         except Exception as e:
-            print(f"Erreur pour le numéro {numero} : {e}")
+            print(f"Erreur pour le numéro {numero_simule} : {e}")
         
-        print(f"Signalement {i} envoyé pour {numero}")
-        time.sleep(0.001)
-
-def main():
-    # Vérifier si l'appareil est connecté
-    output = os.popen("adb devices").read()
-    if "device" not in output:
-        print("Erreur : appareil non connecté")
-        return
-    
-    # Demander au utilisateur de saisir le numéro de téléphone à signaler
-    numero = input("Saisir le numéro de téléphone à signaler : ")
-    
-    # Demander au utilisateur de saisir le nombre de signalements à envoyer
-    rate = int(input("Saisir le nombre de signalements à envoyer : "))
-    
-    signaler_numero(numero, rate)
+        print(f"Signalement envoyé pour {numero_simule}")
+        # time.sleep(0.001)
 
 if __name__ == "__main__":
     main()
