@@ -1,0 +1,1 @@
+# banwhatsappbydev-lord-emeraude
